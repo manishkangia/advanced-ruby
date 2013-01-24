@@ -8,6 +8,6 @@ until (next_line = gets).chomp =~ /^[q]$/i
     end
     evaluate_code = ""
   else
-      evaluate_code += next_line
+    evaluate_code += next_line
   end
 end
