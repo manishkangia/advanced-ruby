@@ -6,13 +6,13 @@ class Klass
   end
   
   def exclude?( c )
-  	!@var.include?( c )
+    !@var.include?( c )
   end
 
   def alt_case
-  	temp_string = ""
-  	(0..@var.length-1).each { |i| temp_string[i] = i.odd? ? @var[i].upcase : @var[i].downcase  }
-  	temp_string
+    temp_string = ""
+    (0..@var.length-1).each { |i| temp_string[i] = i.odd? ? @var[i].upcase : @var[i].downcase  }
+    temp_string
   end
 end
 puts "create a new object by typing in Klass.new( some_string )"
