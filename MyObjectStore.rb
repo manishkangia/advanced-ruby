@@ -1,53 +1,53 @@
 module MyObjectStore
-	
-	Object_array = []
-	
-	module MyClassMethods
-		def create_methods *args
-			args.flatten!.each_index { |i| args[i] = args[i].to_s.delete('@') }
-			args.each do |arg|
-		    instance_eval %{ 
-		    	def find_by_#{arg}(search_for)
-		        temp = []
-		        Object_array.each { |obj| temp<< obj if obj.#{arg} == search_for }
-		        temp 
-		      end
-		    }
-			end
-		end
-	  
-	  def count
-	  	Object_array.length
-	  end
-	end
+  
+  Object_array = []
+  
+  module MyClassMethods
+    def create_methods *args
+      args.flatten!.each_index { |i| args[i] = args[i].to_s.delete('@') }
+      args.each do |arg|
+        instance_eval %{ 
+          def find_by_#{arg}(search_for)
+            temp = []
+            Object_array.each { |obj| temp<< obj if obj.#{arg} == search_for }
+            temp 
+          end
+        }
+      end
+    end
+    
+    def count
+      Object_array.length
+    end
+  end
 
-	def self.included(cls)
-		cls.extend MyClassMethods
-	end
-	
-	def save
-		begin
-		  if validate then Object_array << self 
-		  else puts "Invalid Entry for #{self.inspect}"
-		  end
-		rescue
-			puts "No Validation done for #{self.inspect}"
-			Object_array << self
-		end
-		self.class.create_methods( self.instance_variables ) if Object_array.length == 1
-	end
+  def self.included(cls)
+    cls.extend MyClassMethods
+  end
+  
+  def save
+    begin
+      if validate then Object_array << self 
+      else puts "Invalid Entry for #{self.inspect}"
+      end
+    rescue
+      puts "No Validation done for #{self.inspect}"
+      Object_array << self
+    end
+    self.class.create_methods( self.instance_variables ) if Object_array.length == 1
+  end
 
 end
 
 class Play
-	
-	include MyObjectStore
+  
+  include MyObjectStore
 
-	attr_accessor :age, :fname, :email
+  attr_accessor :age, :fname, :email
 
-	def validate
-		@age && @age > 15 && @fname && @email
-	end
+  def validate
+    @age && @age > 15 && @fname && @email
+  end
 
 end
 
