@@ -8,9 +8,7 @@ module MyObjectStore
       args.each do |arg|
         instance_eval %{ 
           def find_by_#{arg}(search_for)
-            temp = []
-            Object_array.each { |obj| temp<< obj if obj.#{arg} == search_for }
-            temp 
+            Object_array.select { |obj| obj.#{arg} == search_for }
           end
         }
       end
