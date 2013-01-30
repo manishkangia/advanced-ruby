@@ -1,4 +1,4 @@
-class Klass
+class Klass < String
   attr_accessor :var
   
   def initialize( str )
@@ -21,5 +21,11 @@ new_obj = eval( code )
 
 puts "Nice! Now you can call two functions on it namely, alt_case and exclude?( some_char ) by just typing in the function name"
 code2 = gets.chomp 
-puts new_obj.instance_eval( code2 )
+
+begin
+  puts new_obj.instance_eval("@var.#{code2}")
+rescue
+  puts new_obj.instance_eval( code2 )
+end
+
 puts "Thank you!\nBye"
