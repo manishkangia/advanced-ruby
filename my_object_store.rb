@@ -29,8 +29,13 @@ module MyObjectStore
   end
   
   def save
-    if validate then Object_array << self 
-    else puts "Invalid Entry for #{self.inspect}"
+    if self.methods.include?(:validate)
+      if validate then Object_array << self 
+      else puts "Invalid Entry for #{self.inspect}"
+      end
+    else
+      puts "No Validation done for \n#{self.inspect}"
+      Object_array << self
     end
   end
 
@@ -66,5 +71,5 @@ puts "Enter the name to find objects with that as their attribute age value"
 result = Play.find_by_age(gets.chomp.to_i)
 
 if result.empty? then puts "no match"
-else puts result
+else puts "found match\n#{result}"
 end
