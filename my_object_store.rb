@@ -29,14 +29,9 @@ module MyObjectStore
   end
   
   def save
-    begin
       if validate then Object_array << self 
       else puts "Invalid Entry for #{self.inspect}"
       end
-    rescue
-      puts "No Validation done for #{self.inspect}"
-      Object_array << self
-    end
   end
 
 end
