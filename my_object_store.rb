@@ -1,10 +1,15 @@
 module MyObjectStore
   
   Object_array = []
-  
+    
   module MyClassMethods
-    def create_methods *args
-      args.flatten!.each_index { |i| args[i] = args[i].to_s.delete('@') }
+    
+    def attr_accessor(*args)
+      args.each { |arg| super( arg ) }
+      create_methods(args)
+    end
+
+    def create_methods(args)
       args.each do |arg|
         instance_eval %{ 
           def find_by_#{arg}(search_for)
@@ -32,7 +37,6 @@ module MyObjectStore
       puts "No Validation done for #{self.inspect}"
       Object_array << self
     end
-    self.class.create_methods( self.instance_variables ) if Object_array.length == 1
   end
 
 end
@@ -50,7 +54,7 @@ class Play
 end
 
 p1 = Play.new
-p1.age = 14
+# p1.age = 14
 p1.fname = "Manish"
 p1.email = "manish.kangia@vinsol.com"
 p1.save
@@ -61,7 +65,11 @@ p2.fname = "Manish"
 p2.email = "ashish.sharma@vinsol.com"
 p2.save
 
-puts "Currently there are #{Play.count} objects"
+puts "Currently there are #{Play.count} object(s)"
 
-puts "Enter the name to find objects with that as their attribute name value"
-puts Play.find_by_fname(gets.chomp.capitalize)
+puts "Enter the name to find objects with that as their attribute age value"
+result = Play.find_by_age(gets.chomp.to_i)
+
+if result.empty? then puts "no match"
+else puts result
+end
