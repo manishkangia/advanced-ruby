@@ -13,11 +13,19 @@ module MyModule
       
       class_eval %{
         #{scope}
-        def #{func_name}
-          #{func_name}_with_#{extend_with}#{ends_with}
+        alias_method :original_method, :#{func_name}
+        
+        def #{func_name}_with_#{extend_with}#{ends_with}
+          puts '--logging start'
+          original_method
+          puts "--logging end"
+          puts
         end
+        
+        alias_method :#{func_name}, :#{func_name}_with_#{extend_with}#{ends_with}
+
         def #{func_name}_without_#{extend_with}#{ends_with} 
-          puts "hello"
+          original_method
         end
       }
     end
@@ -35,10 +43,8 @@ class Hello
   
   protected
   
-  def greet_with_logger
-    puts '--logging start'
-    greet_without_logger
-    puts "--logging end"
+  def greet
+    puts "hello boy!"
   end
 
   chained_aliasing :greet, :logger
@@ -48,6 +54,3 @@ say = Hello.new
 say.send :greet
 say.send :greet_with_logger
 say.send :greet_without_logger
-
-puts "\nmethods scope reserved\nProtected methods are:"
-puts say.class.protected_instance_methods
