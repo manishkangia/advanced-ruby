@@ -27,8 +27,6 @@ module MyModule
     end
 
     def apply_filter 
-      @@methods_for_before -= ( @@after_methods )
-      @@methods_for_after -= ( @@before_methods )
       @@methods_for_before.each do |method|
         original_method = instance_method(method)
         define_method(method) do
